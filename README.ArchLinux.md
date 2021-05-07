@@ -19,8 +19,7 @@ COMPILER=	gfortran-9
 Install dependencies
 
 ```
-#yay nco(actually i do not know which pkg the nco means )
-yay -S netcdf pgplot
+yay -S nco netcdf pgplot
 ```
 Build & test
 ```
