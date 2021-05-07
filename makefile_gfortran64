@@ -8,7 +8,7 @@
 
 SHELL=		/bin/sh
 NAME=		xgenray
-COMPILER=	gfortran
+COMPILER=	gfortran-9
 BUILDER=	$(COMPILER)
 INCLUDES=	antenna.i adj.i bripplb.i cefield.i cone.i dskin.i eps.i\
 		emissa.i five.i fourb.i gr.i grill.i ions.i\
