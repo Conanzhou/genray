@@ -92,7 +92,7 @@ Zstruct4= np.array([-25.,25.,25.,-25.,-25.])
 #should be 4 structures only; some will be plotted with mirror image,too
 
 e0 = time.time()  # elapsed time since the epoch
-c0 = time.clock() # total cpu time spent in the script so far
+c0 = time.process_time() # total cpu time spent in the script so far
 
 #------------------------------------------
 #eqdsk_name='eqdsk'
@@ -376,7 +376,7 @@ try:# Try reading eqdsk file, hoping it exists in the working directory.
     for nn in range(1,nz,1):  # nn goes from 1 to nz-1
         ez[nn]=ez[nn-1]+dzz   # Z-grid [cm]
     R,Z = np.meshgrid(er,ez) # 2D grids [cm]   
-    print 'min/max of er grid [cm]:', np.min(er),np.max(er)
+    print('min/max of er grid [cm]:', np.min(er),np.max(er))
     #........................................................
     # Form the equally spaced psi array/grid.
     # psimag < psilim;  epsi has min. at m.axis
@@ -421,8 +421,8 @@ try:# Try reading eqdsk file, hoping it exists in the working directory.
         rzcontr.resize((ncontr,2))
         rcontr=rzcontr[:,0]
         zcontr=rzcontr[:,1]
-        print 'min/max of rcontr=',np.min(rcontr),np.max(rcontr)
-        print 'min/max of zcontr=',np.min(zcontr),np.max(zcontr)        
+        print('min/max of rcontr=', np.min(rcontr), np.max(rcontr))
+        print('min/max of zcontr=', np.min(zcontr), np.max(zcontr))
     if nlimiter>4:
         try:
             rzlimiter=read_vector(tmp,2*nlimiter,5)
@@ -430,8 +430,8 @@ try:# Try reading eqdsk file, hoping it exists in the working directory.
             rzlimiter.resize((nlimiter,2))
             rlimiter=rzlimiter[:,0]
             zlimiter=rzlimiter[:,1]
-            print 'min/max of rlimiter=',np.min(rlimiter),np.max(rlimiter)
-            print 'min/max of zlimiter=',np.min(zlimiter),np.max(zlimiter)        
+            print('min/max of rlimiter=', np.min(rlimiter), np.max(rlimiter))
+            print('min/max of zlimiter=', np.min(zlimiter), np.max(zlimiter))
         except:  
             print('possibly corrupted data on limiter')
             nlimiter=0
@@ -473,8 +473,8 @@ print(dat.file_format) # print which format was used for the genray.nc file
 
 print('The genray file, ',filenm,', contains:')
 print('========================================')
-print("The global attributes: ",dat.dimensions.keys())    
-print("File contains variables: ",dat.variables.keys())
+print("The global attributes: ",list(dat.dimensions.keys()))    
+print("File contains variables: ",list(dat.variables.keys()))
 print('========================================')
 
 # The name of eqdsk file used for equilibrium B-field:
@@ -550,18 +550,18 @@ try:
     else:
         i_ox=2
         i_ox_conversion=dat.variables['i_ox_conversion'] #
-        print 'i_ox_conversion is:',i_ox_conversion.long_name
+        print('i_ox_conversion is:', i_ox_conversion.long_name)
         transm_ox=dat.variables['transm_ox'] #
-        print 'transm_ox is: ', transm_ox.long_name, transm_ox.shape
+        print('transm_ox is: ', transm_ox.long_name, transm_ox.shape)
         cnpar_ox=dat.variables['cnpar_ox'] #
-        print 'cnpar_ox is: ', cnpar_ox.long_name, cnpar_ox.shape
+        print('cnpar_ox is: ', cnpar_ox.long_name, cnpar_ox.shape)
         cn_b_gradpsi=dat.variables['cn_b_gradpsi'] #
-        print 'cn_b_gradpsi is: ', cn_b_gradpsi.long_name, cn_b_gradpsi.shape
+        print('cn_b_gradpsi is: ', cn_b_gradpsi.long_name, cn_b_gradpsi.shape)
         cn_par_optimal=dat.variables['cn_par_optimal'] #
-        print 'cn_par_optimal is: ', cn_par_optimal.long_name
-        print cn_par_optimal[:]
+        print('cn_par_optimal is: ', cn_par_optimal.long_name)
+        print(cn_par_optimal[:])
 finally:
-    print '----------------------------------------'
+    print('----------------------------------------')
 
 
 # Define min/max for major radius range:
@@ -624,7 +624,7 @@ if Rmax_plot==0:
             Rmin=np.amin(eqdsk_r)*100 # meters -> cm
             Zmax=np.amax(eqdsk_z)*100
             Zmin=np.amin(eqdsk_z)*100 # meters -> cm
-            print 'getting limits from eqdsk_r; Rmin,Rmax[cm]=',Rmin,Rmax
+            print('getting limits from eqdsk_r; Rmin,Rmax[cm]=', Rmin, Rmax)
         else: 
             Rmin= 50.
             Rmax= 300. # just any guess [cm] 
@@ -659,7 +659,7 @@ print('Zmin_plot,Zmax_plot=', Zmin_plot,Zmax_plot)
 print('----------------------------------------')
 
 freqcy=dat.variables['freqcy']
-#BH  print 'freqcy =',freqcy.long_name, freqcy[:], freqcy.units
+#BH  print( 'freqcy =',freqcy.long_name, freqcy[:], freqcy.units)
 print('freqcy =',freqcy.long_name, freqcy.getValue(), freqcy.units)
 #BH f=freqcy[0]
 f=freqcy.getValue()
@@ -692,7 +692,7 @@ for isp in range(0,Nsp,1):
     msme= np.asscalar(mass[isp]/mass[0])      # ms/me ratio
     Zs= np.asscalar(charge[isp]/charge[0])    # Zs/e
     #isp_name[i]='0' # initialize
-    #print 'isp=',isp,' mass=',mass[isp],' Z=',charge[isp],' isp_name=',isp_name
+    #print( 'isp=',isp,' mass=',mass[isp],' Z=',charge[isp],' isp_name=',isp_name)
     if (np.absolute(Zs-1.)<0.1) & (np.absolute(msme-1.)<0.1):
         isp_name.append('e')
     if (np.absolute(Zs-1.)<0.1) & (np.absolute(msme-mp)<10):  # mp is 1836 
@@ -717,16 +717,16 @@ for isp in range(0,Nsp,1):
         isp_name.append('C+6')
         
     # OTHER NAMES CAN BE ADDED HERE.
-    print 'isp=',isp,' m=',mass[isp],' Z=',charge[isp],' isp_name=',isp_name[isp]
+    print( 'isp=',isp,' m=',mass[isp],' Z=',charge[isp],' isp_name=',isp_name[isp])
     #txt1=r"$m/m_e =$"+r"$%1.0f$" %(mass[i])
     #txt2=r"$q/e =$"+r"$%1.0f$" %(charge[i])
-print isp_name
+print(isp_name)
     
 
 
 istart=dat.variables['istart']
 istart=np.asscalar(istart.getValue())
-print 'istart=',istart
+print('istart=', istart)
 
 iray_status_nc= dat.variables['iray_status_nc']
 print('iray_status_nc.shape', iray_status_nc.shape)
@@ -776,7 +776,7 @@ print('powden_i is: ', powden_i.units, powden_i.shape)
 
 # For iabsorp.eq.3 only:
 #powden_s=dat.variables['powden_s']
-#print 'powden_s is: ', powden_s.long_name, powden_s.shape
+#print( 'powden_s is: ', powden_s.long_name, powden_s.shape)
 
 # Total power [erg/sec]
 power_total=dat.variables['power_total']
@@ -791,7 +791,7 @@ powtot_cl=dat.variables['powtot_cl']
 print('powtot_cl is: ', powtot_cl.long_name, powtot_cl.shape)
 # For iabsorp.eq.3 only:
 #powtot_s=dat.variables['powtot_s']
-#print 'powtot_s is: ', powtot_s.long_name, powtot_s.shape
+#print( 'powtot_s is: ', powtot_s.long_name, powtot_s.shape)
 
 ws=dat.variables['ws'] #   pol.distance along ray [cm]
 ws_min=np.min(ws)
@@ -860,36 +860,36 @@ print('vgr_phi is: ', vgr_phi.long_name, vgr_phi.shape)
 
 sb_z=dat.variables['sb_z']
 sb_phi=dat.variables['sb_phi']
-print 'sb_z[0,0]=  ', sb_z[0,0], ' Gauss'
-print 'sb_phi[0,0]=', sb_phi[0,0], ' Gauss'
+print('sb_z[0,0]=  ', sb_z[0, 0], ' Gauss')
+print('sb_phi[0,0]=', sb_phi[0, 0], ' Gauss')
 
 z_starting=dat.variables['z_starting'] #starting Z[m], each ray
 print('z_starting is: ', z_starting.long_name, z_starting.shape)
 z_starting=np.asarray(z_starting)
-print 'z_starting[m]=',z_starting
+print('z_starting[m]=', z_starting)
 
 r_starting=dat.variables['r_starting'] #starting R[m], each ray
 print('r_starting is: ', r_starting.long_name, r_starting.shape)
 r_starting=np.asarray(r_starting)
-print 'r_starting[m]=',r_starting
+print('r_starting[m]=', r_starting)
 
 phi_starting=dat.variables['phi_starting'] #starting phi[degree], each ray
 print('phi_starting is: ', phi_starting.long_name, phi_starting.shape)
 phi_starting=np.asarray(phi_starting)
-print 'phi_starting[degree]=',phi_starting
+print( 'phi_starting[degree]=',phi_starting)
 
 if istart==1:
     alphast=dat.variables['alphast'] #aiming toroidal angle[degree] measured from 
     # R-vector through source;  each ray
     print('alphast is: ', alphast.long_name, alphast.shape)
     alphast=np.asarray(alphast)
-    print 'alphast[degree]=',alphast
+    print('alphast[degree]=', alphast)
 
     betast=dat.variables['betast'] #aiming poloidal angle[degree] measured from 
     # z=constant plane, pos above plane, neg below;  each ray
     print('betast is: ', betast.long_name, betast.shape)
     betast=np.asarray(betast)
-    print 'betast[degree]=',betast
+    print('betast[degree]=', betast)
 
 # Number of rays
 Nrays=wz[:,0].size  
@@ -992,8 +992,8 @@ for i in range(0,Nsp,1):
 
 savefig('genray_profiles_T-n.png',format='png') # try pdf,eps,ps
 show() 
-#print 'rho_bin=',rho_bin
-#print 'temprof[0,:]=',temprof[0,:]
+#print( 'rho_bin=',rho_bin)
+#print( 'temprof[0,:]=',temprof[0,:])
 #stop
 
 
@@ -1016,7 +1016,7 @@ bndry_in_X= Rmin_plot*cos(phi)
 bndry_in_Y= Rmin_plot*sin(phi)
 bndry_out_X= Rmax_plot*cos(phi)
 bndry_out_Y= Rmax_plot*sin(phi)
-print 'Rmax_plot=',Rmax_plot
+print('Rmax_plot=', Rmax_plot)
 
 if n_wall>4:  # plot walls, if any:
     plt.plot(np.max(r_wall)*100*cos(phi),np.max(r_wall)*100*sin(phi),'k',linewidth=linw*2)
@@ -1515,15 +1515,15 @@ for i in range(0,Nrays,1):  # i goes from 0 to Nrays-1
         plt.plot(ws[i,0:Nm],ea,color=col,linewidth=linw)
 plt.subplot(614) #-------------------------
 #To check sum =1. (Yes):
-#print 'sum polorizations**2=', Eplus_abs**2+Eminus_abs**2+ea**2
+#print( 'sum polorizations**2=', Eplus_abs**2+Eminus_abs**2+ea**2)
 plt.hold(True)
 isp=0 # electrons, by default
 if Nsp>0:
     isp=isp_wc-1 # ion (isp_wc is the genray index; isp is the python index)
     msme= mass[isp]/mass[0]        # m_s/m_e ratio
     Z_s= charge[isp]/charge[0]    # Z_s/e
-    print 'm_s/m_e=', msme, '  Z_s=',Z_s
-    print 'isp_name=',isp_name
+    print('m_s/m_e=', msme, '  Z_s=', Z_s)
+    print('isp_name=', isp_name)
     plt.subplot(614) #------------------------- for 1st ion species
     plt.hold(True)
     plt.grid(True)
@@ -1744,7 +1744,7 @@ if Nsp>1:
     isp=isp_wc-1 # ion (isp_wc is the genray index; isp is the python index)
     mime= mass[isp]/mass[0]        # m_s/m_e ratio
     Z_s= charge[isp]/charge[0]    # Z_s/e
-    print 'm_s/m_e=', mime, '  Z_s=',Z_s
+    print('m_s/m_e=', mime, '  Z_s=', Z_s)
     plt.subplot(236) #------------------------- for 1st ion species
     plt.hold(True)
     plt.grid(True)
@@ -2207,8 +2207,8 @@ plt.grid(True)
 plt.title('$(\omega_{pe}/\omega)^2$  $along$ $ray$',y=0.8)
 xticks(np.arange(ws_min, ws_max, step=ws_step) )
 plt.xlim( (ws_min, ws_max) )
-#print 'shape of wpe_w_2 ', wpe_w_2.shape
-#print 'shape of sene ', sene.shape
+#print( 'shape of wpe_w_2 ', wpe_w_2.shape)
+#print( 'shape of sene ', sene.shape)
 y_mn= np.min(wpe_w_2) # second arg: Nm=points_along_ray (can be 0)
 y_mx= np.max(wpe_w_2)
 dy= 0.35*(y_mx-y_mn)
@@ -2350,6 +2350,6 @@ show()
 dat.close() # close genray.nc
          
 elapsed_time = time.time() - e0
-cpu_time = time.clock() - c0
+cpu_time = time.process_time() - c0
 print('elapsed and cpu time since start (sec.) =', elapsed_time, cpu_time)
 print('FINISHED')
