@@ -1,4 +1,4 @@
-test-CMod-LH-edge 1 9.15403
-test-CMod-LH-edge-id16 1 14.1612
-EC-ITER-Centra-CD 1 86.6949
+test-CMod-LH-edge 2 4.61501
+test-CMod-LH-edge-id16 2 7.19407
+EC-ITER-Centra-CD 2 50.9287
 ---
